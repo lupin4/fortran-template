@@ -37,5 +37,39 @@
 *.out
 *.app
 
-# debug information files
+# Debug information files
 *.dwo
+
+# Build directories
+build/
+build_*/
+_build/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake
+Testing/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation generation
+docs/html/
+docs/latex/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
