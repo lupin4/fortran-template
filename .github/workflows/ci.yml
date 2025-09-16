@@ -25,31 +25,24 @@ jobs:
       with:
         compiler: ${{ matrix.fortran-compiler }}
 
-    - name: Install CMake
-      uses: jwlawson/actions-setup-cmake@v1.14
+    - name: Install fpm
+      uses: fortran-lang/setup-fpm@v5
       with:
-        cmake-version: '3.20'
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Configure CMake
-      run: |
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_BUILD_TYPE=Release
+    - name: Build with fpm
+      run: fpm build
 
-    - name: Build
-      run: |
-        cd build
-        cmake --build . --config Release
-
-    - name: Test
-      run: |
-        cd build
-        ctest --output-on-failure
+    - name: Test with fpm
+      run: fpm test
 
     - name: Run Demo
+      run: fpm run fortran-template-demo
+
+    - name: Build Shared Library
       run: |
-        cd build
-        ./src/fortran_template_demo
+        chmod +x build_dll.sh
+        ./build_dll.sh
 
   windows-test:
     runs-on: windows-latest
@@ -63,18 +56,22 @@ jobs:
         msystem: MINGW64
         install: >-
           mingw-w64-x86_64-gcc-fortran
-          mingw-w64-x86_64-cmake
-          mingw-w64-x86_64-ninja
+
+    - name: Install fpm
+      shell: msys2 {0}
+      run: |
+        curl -LOs https://github.com/fortran-lang/fpm/releases/download/v0.10.1/fpm-0.10.1-linux-x86_64
+        chmod +x fpm-0.10.1-linux-x86_64
+        mv fpm-0.10.1-linux-x86_64 /usr/local/bin/fpm
 
     - name: Build and Test
       shell: msys2 {0}
       run: |
-        mkdir build
-        cd build
-        cmake .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release
-        cmake --build .
-        ctest --output-on-failure
-        ./src/fortran_template_demo.exe
+        fpm build
+        fpm test
+        fpm run fortran-template-demo
+        chmod +x build_dll.sh
+        ./build_dll.sh
 
   documentation:
     runs-on: ubuntu-latest

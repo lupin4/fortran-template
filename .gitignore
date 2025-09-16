@@ -45,13 +45,16 @@ build/
 _build/
 .build/
 
-# CMake generated files
+# CMake generated files (legacy)
 CMakeCache.txt
 CMakeFiles/
 Makefile
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
+
+# FPM build artifacts
+fpm.lock
 
 # IDE and editor files
 .vscode/settings.json.user

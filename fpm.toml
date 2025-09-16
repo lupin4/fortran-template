@@ -1,0 +1,45 @@
+name = "fortran-template"
+version = "1.0.0"
+license = "MIT"
+author = "Template User"
+maintainer = "user@example.com"
+copyright = "2025 Template User"
+description = "A modern Fortran template project with fpm build system"
+categories = ["template", "utilities"]
+keywords = ["fortran", "template", "modern", "fpm"]
+homepage = "https://github.com/lupin4/fortran-template"
+
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+
+[library]
+source-dir = "src"
+
+[[executable]]
+name = "fortran-template-demo"
+source-dir = "app"
+main = "main.f90"
+
+[[test]]
+name = "test-math-utils"
+source-dir = "test"
+main = "test_math_utils.f90"
+
+[[test]]
+name = "test-string-utils"
+source-dir = "test"
+main = "test_string_utils.f90"
+
+[[example]]
+name = "simple-example"
+source-dir = "example"
+main = "simple_example.f90"
+
+[install]
+library = true

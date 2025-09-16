@@ -8,8 +8,9 @@ A modern, comprehensive Fortran project template featuring best practices, autom
 ## 🚀 Features
 
 - **Modern Fortran**: Uses Fortran 2008+ standards with proper module organization
-- **Cross-Platform Build System**: CMake-based build system supporting Linux, macOS, and Windows
-- **Automated Testing**: Comprehensive test suite with CTest integration
+- **FPM Build System**: Modern Fortran Package Manager for easy dependency management
+- **Shared Library Support**: Build scripts for creating DLLs with gfortran
+- **Automated Testing**: Comprehensive test suite with fpm test integration
 - **Continuous Integration**: GitHub Actions workflows for automated testing across multiple platforms
 - **Documentation Ready**: Structured for automatic documentation generation
 - **Example Code**: Complete working examples demonstrating best practices
@@ -19,23 +20,23 @@ A modern, comprehensive Fortran project template featuring best practices, autom
 
 ```
 fortran-template/
-├── src/                     # Source code
+├── src/                     # Library source code
 │   ├── math_utils.f90      # Mathematical utilities module
-│   ├── string_utils.f90    # String manipulation utilities
-│   ├── main.f90           # Example main program
-│   └── CMakeLists.txt     # Source build configuration
-├── tests/                  # Test suite
+│   └── string_utils.f90    # String manipulation utilities
+├── app/                    # Application source code
+│   └── main.f90           # Example main program
+├── test/                   # Test suite
 │   ├── test_math_utils.f90
-│   ├── test_string_utils.f90
-│   └── CMakeLists.txt     # Test build configuration
+│   └── test_string_utils.f90
+├── example/                # Usage examples
+│   └── simple_example.f90
 ├── docs/                   # Documentation
-├── examples/               # Usage examples
-├── cmake/                  # CMake modules and find scripts
 ├── .github/               # GitHub Actions workflows
 │   └── workflows/
 │       └── ci.yml         # Continuous integration
 ├── .vscode/               # VSCode configuration
-├── CMakeLists.txt         # Main build configuration
+├── fpm.toml               # FPM configuration
+├── build_dll.sh           # Shared library build script
 ├── .gitignore            # Git ignore rules
 └── README.md             # This file
 ```
@@ -44,11 +45,10 @@ fortran-template/
 
 ### Minimum Requirements
 - **Fortran Compiler**: gfortran 9.0+ or Intel Fortran 2019+
-- **CMake**: 3.20 or later
+- **FPM**: Fortran Package Manager (latest version)
 - **Operating System**: Linux, macOS, or Windows
 
 ### Recommended Tools
-- **Build System**: Ninja (faster builds)
 - **Editor**: VSCode with Modern Fortran extension
 - **Documentation**: FORD for automatic documentation generation
 
@@ -61,33 +61,30 @@ fortran-template/
 git clone https://github.com/yourusername/your-fortran-project.git
 cd your-fortran-project
 
-# Create build directory
-mkdir build && cd build
-
-# Configure with CMake
-cmake ..
-
-# Build the project
-cmake --build .
+# Build the project with fpm
+fpm build
 
 # Run tests
-ctest --output-on-failure
+fpm test
 
 # Run the demo
-./src/fortran_template_demo
+fpm run fortran-template-demo
+
+# Build shared library (DLL)
+./build_dll.sh
 ```
 
 ### Build Options
 
 ```bash
-# Debug build
-cmake .. -DCMAKE_BUILD_TYPE=Debug
+# Build only the library
+fpm build --target fortran-template
 
-# Release build with optimizations
-cmake .. -DCMAKE_BUILD_TYPE=Release
+# Build specific executable
+fpm build --target fortran-template-demo
 
-# Using Ninja for faster builds
-cmake .. -GNinja
+# Run tests with verbose output
+fpm test --verbose
 ninja
 ```
 
@@ -96,17 +93,41 @@ ninja
 #### Linux/macOS
 ```bash
 # Install gfortran (Ubuntu/Debian)
-sudo apt-get install gfortran cmake
+sudo apt-get install gfortran
 
 # Install gfortran (macOS with Homebrew)
-brew install gfortran cmake
+brew install gfortran
+
+# Install fpm
+curl -LOs https://github.com/fortran-lang/fpm/releases/latest/download/fpm-VERSION-OS-ARCH
+chmod +x fpm-VERSION-OS-ARCH
+sudo mv fpm-VERSION-OS-ARCH /usr/local/bin/fpm
 ```
 
 #### Windows
 ```bash
 # Using MSYS2
-pacman -S mingw-w64-x86_64-gcc-fortran mingw-w64-x86_64-cmake
+pacman -S mingw-w64-x86_64-gcc-fortran
+
+# Install fpm (download from GitHub releases)
+# https://github.com/fortran-lang/fpm/releases
 ```
+
+### Shared Library (DLL) Creation
+
+The template includes a script to create shared libraries:
+
+```bash
+# Make the script executable
+chmod +x build_dll.sh
+
+# Build shared library
+./build_dll.sh
+```
+
+This creates:
+- `build/shared/libfortran_template.so` (Linux/macOS) or `fortran_template.dll` (Windows)
+- Module files in `build/shared/`
 
 ## 🧪 Testing
 
@@ -114,14 +135,13 @@ The project includes a comprehensive test suite:
 
 ```bash
 # Run all tests
-cd build
-ctest
+fpm test
 
 # Run specific test
-ctest -R math_utils_test
+fpm test test-math-utils
 
-# Verbose test output
-ctest --verbose
+# Run tests with verbose output
+fpm test --verbose
 ```
 
 ### Test Structure

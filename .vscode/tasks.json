@@ -2,40 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "cmake-configure",
+            "label": "fpm-build",
             "type": "shell",
-            "command": "cmake",
+            "command": "fpm",
             "args": [
-                "..",
-                "-DCMAKE_BUILD_TYPE=Debug"
+                "build"
             ],
-            "options": {
-                "cwd": "${workspaceFolder}/build"
-            },
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "cmake-build",
-            "type": "shell",
-            "command": "cmake",
-            "args": [
-                "--build",
-                ".",
-                "--config",
-                "Debug"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}/build"
-            },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -48,19 +20,15 @@
                 "showReuseMessage": true,
                 "clear": false
             },
-            "problemMatcher": "$gcc",
-            "dependsOn": "cmake-configure"
+            "problemMatcher": "$gcc"
         },
         {
-            "label": "cmake-test",
+            "label": "fpm-test",
             "type": "shell",
-            "command": "ctest",
+            "command": "fpm",
             "args": [
-                "--output-on-failure"
+                "test"
             ],
-            "options": {
-                "cwd": "${workspaceFolder}/build"
-            },
             "group": "test",
             "presentation": {
                 "echo": true,
@@ -71,15 +39,16 @@
                 "clear": false
             },
             "problemMatcher": [],
-            "dependsOn": "cmake-build"
+            "dependsOn": "fpm-build"
         },
         {
-            "label": "run-demo",
+            "label": "fpm-run-demo",
             "type": "shell",
-            "command": "./src/fortran_template_demo",
-            "options": {
-                "cwd": "${workspaceFolder}/build"
-            },
+            "command": "fpm",
+            "args": [
+                "run",
+                "fortran-template-demo"
+            ],
             "group": "build",
             "presentation": {
                 "echo": true,
@@ -90,7 +59,23 @@
                 "clear": false
             },
             "problemMatcher": [],
-            "dependsOn": "cmake-build"
+            "dependsOn": "fpm-build"
+        },
+        {
+            "label": "build-dll",
+            "type": "shell",
+            "command": "./build_dll.sh",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "dependsOn": "fpm-build"
         }
     ]
 }

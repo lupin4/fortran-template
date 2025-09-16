@@ -10,8 +10,8 @@ Welcome to the Modern Fortran Template! This guide will help you customize this 
 - [ ] Update the repository name in this README
 
 ### 2. Project Customization
-- [ ] Edit `CMakeLists.txt` and change the project name from `fortran_template` to your project name
-- [ ] Update the project description in `CMakeLists.txt`
+- [ ] Edit `fpm.toml` and change the project name from `fortran-template` to your project name
+- [ ] Update the project description in `fpm.toml`
 - [ ] Modify `ford.md` with your project information
 - [ ] Update the GitHub repository URLs in README and ford.md
 
@@ -19,19 +19,19 @@ Welcome to the Modern Fortran Template! This guide will help you customize this 
 - [ ] Replace or modify the example modules in `src/`:
   - `math_utils.f90` - Replace with your mathematical functions
   - `string_utils.f90` - Replace with your utility functions
-  - `main.f90` - Update with your main program
-- [ ] Update the library name in `src/CMakeLists.txt`
-- [ ] Modify the executable name in `src/CMakeLists.txt`
+- [ ] Update the main program in `app/main.f90`
+- [ ] Update the library name in `fpm.toml`
+- [ ] Modify the executable name in `fpm.toml`
 
 ### 4. Testing
-- [ ] Update tests in `tests/` to match your new modules
-- [ ] Modify test names in `tests/CMakeLists.txt`
+- [ ] Update tests in `test/` to match your new modules
+- [ ] Modify test names in `fpm.toml`
 - [ ] Add new test files as needed
 
 ### 5. Documentation
 - [ ] Update this README with your project description
 - [ ] Modify the license information if needed
-- [ ] Update author information in `ford.md`
+- [ ] Update author information in `fmp.toml` and `ford.md`
 - [ ] Add project-specific documentation to `docs/`
 
 ### 6. CI/CD
@@ -45,30 +45,24 @@ Welcome to the Modern Fortran Template! This guide will help you customize this 
 - [ ] Modify build tasks in `.vscode/tasks.json`
 
 ### 8. Examples
-- [ ] Replace example programs in `examples/` with your own
-- [ ] Update `examples/README.md` with your examples
+- [ ] Replace example programs in `example/` with your own
+- [ ] Update `example/` with your examples
 
 ## File Replacement Checklist
 
-### CMakeLists.txt
-```cmake
+### fpm.toml
+```toml
 # Change this line:
-project(fortran_template
+name = "fortran-template"
 # To:
-project(your_project_name
-```
+name = "your-project-name"
 
-### src/CMakeLists.txt
-```cmake
-# Change library name:
-add_library(your_project_lib
-    # your source files
-)
+# Update description:
+description = "Your project description here"
 
-# Change executable name:
-add_executable(your_project_demo
-    main.f90
-)
+# Update author:
+author = "Your Name"
+maintainer = "your.email@example.com"
 ```
 
 ### README.md
@@ -89,17 +83,18 @@ After customization, test your setup:
 ```bash
 # Clean build
 rm -rf build
-mkdir build && cd build
 
-# Configure and build
-cmake ..
-cmake --build .
+# Build with fpm
+fpm build
 
 # Run tests
-ctest --output-on-failure
+fpm test
 
 # Run your program
-./src/your_project_demo
+fpm run your-project-demo
+
+# Build shared library
+./build_dll.sh
 ```
 
 ## Next Steps

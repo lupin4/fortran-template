@@ -5,10 +5,10 @@
             "name": "Fortran Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/src/fortran_template_demo",
+            "program": "${workspaceFolder}/build/gfortran_*/app/fortran-template-demo",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build",
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -19,7 +19,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "cmake-build"
+            "preLaunchTask": "fpm-build"
         }
     ]
 }
