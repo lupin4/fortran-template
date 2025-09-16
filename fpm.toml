@@ -1,0 +1,11 @@
+name = "project-name"
+version = "0.1.0"
+license = "MIT"
+author = "David Clabaugh"
+maintainer = "hello@thefantasticplanet.com"
+description = "Template Fortran project using fpm"
+homepage = "https://github.com/YOURNAME/project-name"
+
+[build]
+auto-executables = true
+auto-tests = true
