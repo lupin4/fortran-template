@@ -37,5 +37,45 @@
 *.out
 *.app
 
-# debug information files
+# Debug information files
 *.dwo
+
+# Build directories
+build/
+_build/
+.build/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+
+# IDE and editor files
+.vscode/settings.json.user
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Generated documentation
+docs/html/
+docs/latex/
+ford_documentation/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+
+# Coverage files
+*.gcov
+*.gcda
+*.gcno
+
+# Package files
+*.tar.gz
+*.zip
