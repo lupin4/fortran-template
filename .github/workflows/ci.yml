@@ -1,0 +1,106 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }} with ${{ matrix.compiler }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        compiler: [gfortran]
+        include:
+          - os: ubuntu-latest
+            compiler: gfortran
+            fc: gfortran-11
+          - os: macos-latest
+            compiler: gfortran
+            fc: gfortran-12
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Fortran compiler (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gfortran-11
+
+    - name: Setup Fortran compiler (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install gcc@12
+
+    - name: Build with Make
+      run: |
+        export FC=${{ matrix.fc }}
+        make all
+
+    - name: Run tests with Make
+      run: |
+        export FC=${{ matrix.fc }}
+        make test
+
+    - name: Run main program
+      run: |
+        export FC=${{ matrix.fc }}
+        make run
+
+  cmake-build:
+    name: CMake build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Fortran compiler (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gfortran-11
+
+    - name: Setup Fortran compiler (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install gcc@12
+
+    - name: Configure CMake
+      run: |
+        cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build with CMake
+      run: |
+        cmake --build build
+
+    - name: Run tests with CMake
+      run: |
+        cd build && ctest --output-on-failure
+
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install fprettify
+      run: |
+        pip install fprettify
+        
+    - name: Check Fortran formatting
+      run: |
+        find src tests examples -name "*.f90" -exec fprettify --diff {} \;
