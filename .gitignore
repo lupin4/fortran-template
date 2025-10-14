@@ -1,84 +1,19 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
+# Fortran build artifacts
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
 *.mod
 *.smod
-
-# Compiled Static libraries
-*.lai
-*.la
 *.a
-*.lib
-
-# Executables
+*.dll
+*.so
+*.dylib
 *.exe
-*.out
-*.app
 
-# Debug information files
-*.dwo
-
-# Build directories
+# fpm build dirs
 build/
-_build/
-.build/
+dist/
 
-# CMake generated files (legacy)
-CMakeCache.txt
-CMakeFiles/
-Makefile
-cmake_install.cmake
-install_manifest.txt
-compile_commands.json
-
-# FPM build artifacts
-fpm.lock
-
-# IDE and editor files
-.vscode/settings.json.user
-*.swp
-*.swo
-*~
+# Editor/OS cruft
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
-
-# Generated documentation
-docs/html/
-docs/latex/
-ford_documentation/
-
-# Temporary files
-*.tmp
-*.temp
-.tmp/
-
-# Coverage files
-*.gcov
-*.gcda
-*.gcno
-
-# Package files
-*.tar.gz
-*.zip
