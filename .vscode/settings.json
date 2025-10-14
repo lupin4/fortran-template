@@ -1,0 +1,24 @@
+{
+    "fortls.lowercaseIntrinsics": true,
+    "fortls.hoverSignature": true,
+    "fortls.useSignatureHelp": true,
+    "fortls.includeSymbolMem": true,
+    "files.associations": {
+        "*.f90": "fortran-modern",
+        "*.F90": "fortran-modern",
+        "*.f95": "fortran-modern",
+        "*.F95": "fortran-modern",
+        "*.f03": "fortran-modern",
+        "*.F03": "fortran-modern",
+        "*.f08": "fortran-modern",
+        "*.F08": "fortran-modern"
+    },
+    "cmake.configureOnOpen": false,
+    "[fortran-modern]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.rulers": [80, 120],
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 120
+    }
+}

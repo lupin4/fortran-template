@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "fortls.fortls",
+        "ms-vscode.cmake-tools",
+        "twxs.cmake",
+        "ms-vscode.cpptools",
+        "ms-python.python"
+    ]
+}

@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        fortran-compiler: [gfortran-9, gfortran-10, gfortran-11]
+        exclude:
+          - os: macos-latest
+            fortran-compiler: gfortran-9
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Fortran
+      uses: fortran-lang/setup-fortran@v1
+      with:
+        compiler: ${{ matrix.fortran-compiler }}
+
+    - name: Install fpm
+      uses: fortran-lang/setup-fpm@v5
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build with fpm
+      run: fpm build
+
+    - name: Test with fpm
+      run: fpm test
+
+    - name: Run Demo
+      run: fpm run fortran-template-demo
+
+    - name: Build Shared Library
+      run: |
+        chmod +x build_dll.sh
+        ./build_dll.sh
+
+  windows-test:
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        install: >-
+          mingw-w64-x86_64-gcc-fortran
+
+    - name: Install fpm
+      shell: msys2 {0}
+      run: |
+        curl -LOs https://github.com/fortran-lang/fpm/releases/download/v0.10.1/fpm-0.10.1-linux-x86_64
+        chmod +x fpm-0.10.1-linux-x86_64
+        mv fpm-0.10.1-linux-x86_64 /usr/local/bin/fpm
+
+    - name: Build and Test
+      shell: msys2 {0}
+      run: |
+        fpm build
+        fpm test
+        fpm run fortran-template-demo
+        chmod +x build_dll.sh
+        ./build_dll.sh
+
+  documentation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Fortran
+      uses: fortran-lang/setup-fortran@v1
+      with:
+        compiler: gfortran-11
+
+    - name: Install FORD
+      run: |
+        python -m pip install --upgrade pip
+        pip install ford
+
+    - name: Generate Documentation
+      run: |
+        if [ -f ford.md ]; then
+          ford ford.md
+        else
+          echo "No FORD documentation configuration found"
+        fi
+
+    - name: Upload Documentation
+      if: github.ref == 'refs/heads/main'
+      uses: actions/upload-artifact@v3
+      with:
+        name: documentation
+        path: docs/

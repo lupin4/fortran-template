@@ -1,0 +1,81 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "fpm-build",
+            "type": "shell",
+            "command": "fpm",
+            "args": [
+                "build"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "fpm-test",
+            "type": "shell",
+            "command": "fpm",
+            "args": [
+                "test"
+            ],
+            "group": "test",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "dependsOn": "fpm-build"
+        },
+        {
+            "label": "fpm-run-demo",
+            "type": "shell",
+            "command": "fpm",
+            "args": [
+                "run",
+                "fortran-template-demo"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "dependsOn": "fpm-build"
+        },
+        {
+            "label": "build-dll",
+            "type": "shell",
+            "command": "./build_dll.sh",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "dependsOn": "fpm-build"
+        }
+    ]
+}
